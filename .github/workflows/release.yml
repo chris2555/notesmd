@@ -1,0 +1,38 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  publicar:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Código
+        uses: actions/checkout@v4
+
+      - name: Comprobar versión
+        run: |
+          version="$(sed -n 's/^VERSION = "\(.*\)"/\1/p' app.py | head -1)"
+          echo "app.py: v$version · tag: $GITHUB_REF_NAME"
+          test "v$version" = "$GITHUB_REF_NAME" || {
+            echo "::error::El tag $GITHUB_REF_NAME no coincide con VERSION = \"$version\""
+            exit 1
+          }
+
+      - name: Empaquetar
+        run: ./scripts/package.sh
+
+      - name: Publicar release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: notesmd ${{ github.ref_name }}
+          generate_release_notes: true
+          fail_on_unmatched_files: true
+          files: |
+            dist/*.tar.gz
+            dist/*.deb

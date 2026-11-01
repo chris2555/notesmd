@@ -6,5 +6,6 @@ __pycache__/
 
 # capturas de trabajo y temporales
 renders/
+dist/
 *.log
 .DS_Store

@@ -45,6 +45,44 @@ Para abrirla sin instalar:
 ./run.sh
 ```
 
+## Versiones y descargas
+
+La versión vive en una sola línea de `app.py`:
+
+```python
+VERSION = "0.1.0"
+```
+
+Se usa semver: `MAJOR.MINOR.PATCH` (rompe compatibilidad / funciones nuevas / arreglos). El tag de Git lleva una `v` delante y **tiene que coincidir**: `v0.1.0`.
+
+Para publicar una versión:
+
+```bash
+# 1. sube la versión en app.py y anota los cambios en CHANGELOG.md
+git add -A
+git commit -m "notesmd 0.1.0"
+git tag -a v0.1.0 -m "notesmd 0.1.0"
+git push origin main --tags
+```
+
+Al empujar el tag, `.github/workflows/release.yml` compila los paquetes y crea la
+Release con los adjuntos. En la barra lateral del repositorio aparece
+**Releases → Latest v0.1.0** con el instalador para descargar.
+
+También puedes generar los paquetes en local:
+
+```bash
+./scripts/package.sh          # dist/notesmd-0.1.0.tar.gz y dist/notesmd_0.1.0_all.deb
+```
+
+- **`.deb`** (recomendado): `sudo apt install ./notesmd_0.1.0_all.deb`. Instala en
+  `/usr/lib/notesmd`, añade `notesmd` al menú y declara las dependencias de GTK/WebKit.
+- **`.tar.gz`**: descomprimir y ejecutar `./install.sh` (instalación en tu carpeta personal,
+  sin sudo).
+
+La primera Release hay que crearla publicando el tag; a partir de ahí GitHub muestra
+siempre la última en esa parte del repositorio.
+
 ## Uso
 
 - `N` o el botón **Nueva nota** para escribir.
@@ -98,6 +136,8 @@ notesmd/
 │   └── fonts/             # Fraunces + Public Sans
 ├── assets/                # iconos
 ├── docs/                  # capturas para este README
+├── scripts/package.sh     # .tar.gz y .deb para las releases
+├── .github/workflows/     # release automática al empujar un tag
 ├── tests/
 ├── run.sh
 ├── install.sh
