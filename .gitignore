@@ -1,0 +1,10 @@
+# entorno local
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# capturas de trabajo y temporales
+renders/
+*.log
+.DS_Store
