@@ -1,11 +1,38 @@
-# entorno local
-.venv/
+# Python
 __pycache__/
 *.py[cod]
+*.egg-info/
+.venv/
+venv/
 .pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
 
-# capturas de trabajo y temporales
-renders/
+# Empaquetado y builds
 dist/
-*.log
+build/
+*.deb
+*.tar.gz
+*.AppImage
+*.spec
+
+# Datos locales de la app (las notas viven fuera del repo, pero por si acaso)
+/Notas-notesmd/
+
+# Entorno y secretos
+.env
+
+# Editores y sistema
+.vscode/
+.idea/
+*.swp
+*~
 .DS_Store
+Thumbs.db
+.directory
+
+# Logs y temporales
+*.log
+*.tmp

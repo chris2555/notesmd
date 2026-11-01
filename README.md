@@ -1,99 +1,103 @@
 # notesmd
 
-Notas rápidas para el escritorio de Linux, en Markdown y sin nube. Una especie de Google Keep local: mosaico de tarjetas, etiquetas, búsqueda, fijadas, archivo y papelera.
+Quick notes for the Linux desktop, in Markdown and without the cloud. A local take on Google Keep: a masonry board of cards, labels, search, pinned notes, archive and trash.
 
-Cada nota es un archivo `.md` real dentro de `~/Notas-notesmd`: puedes abrirlo con Obsidian, editarlo a mano o copiar la carpeta como copia de seguridad. No hay cuentas, servidores ni telemetría.
+Every note is a real `.md` file inside `~/Notas-notesmd`: open it with Obsidian, edit it by hand, or copy the folder as a backup. No accounts, no servers, no telemetry. The interface is in Spanish.
 
-![Vista principal en modo oscuro](docs/notesmd-oscuro.png)
+![Main view, dark theme](docs/notesmd-oscuro.png)
 
-## Qué incluye
+## Features
 
-- Tarjetas en mosaico o en lista, con nueve colores de papel (versión clara y oscura).
-- Editor con Markdown y vista previa: negritas, listas, tareas, citas, código y enlaces.
-- Etiquetas (`#trabajo`, `#casa`) que filtran el tablero.
-- Búsqueda instantánea en título, cuerpo y etiquetas.
-- Notas fijadas, archivadas y papelera con deshacer.
-- Guardado automático (y `Ctrl+S` para forzar).
-- Tema oscuro tipo YouTube (fondo `#0f0f0f`, tarjetas `#212121`) y tema claro.
-- Atajos de teclado: `N` para nueva nota, `/` para buscar, `Esc` para cerrar.
+- Masonry or list layout, with nine paper colors (light and dark variants).
+- Markdown editor with preview: bold, lists, tasks, quotes, code and links.
+- Labels (`#work`, `#home`) that filter the board.
+- Instant search across title, body and labels.
+- Pinned, archived and trashed notes, with undo.
+- Autosave (and `Ctrl+S` to force it).
+- YouTube-style dark theme (`#0f0f0f` background, `#212121` cards) and a light theme.
+- Keyboard shortcuts: `N` for a new note, `/` to search, `Esc` to close.
 
-## Capturas
+## Screenshots
 
-| Tema claro | Editor con vista previa |
+| Light theme | Editor with preview |
 | --- | --- |
-| ![Tema claro](docs/notesmd-claro.png) | ![Editor](docs/notesmd-editor.png) |
+| ![Light theme](docs/notesmd-claro.png) | ![Editor](docs/notesmd-editor.png) |
 
-## Instalar
+## Install
 
-Necesitas Linux con Python 3, GTK y WebKit2GTK. En Linux Mint / Ubuntu:
+You need Linux with Python 3, GTK and WebKit2GTK. On Linux Mint / Ubuntu:
 
 ```bash
 sudo apt install python3-venv python3-gi gir1.2-webkit2-4.1
 ```
 
-Después, desde esta carpeta:
+Then, from this folder:
 
 ```bash
 ./install.sh
 ```
 
-El instalador crea un entorno de Python aislado, registra la aplicación en el menú y deja el comando `notesmd` en `~/.local/bin` (si no está en tu `PATH`, añade esa carpeta).
+The installer creates an isolated Python environment, registers the app in the
+application menu and leaves the `notesmd` command in `~/.local/bin` (if that
+folder is not on your `PATH`, add it).
 
-Para abrirla sin instalar:
+To run it without installing:
 
 ```bash
 ./run.sh
 ```
 
-## Versiones y descargas
+## Versions and downloads
 
-La versión vive en una sola línea de `app.py`:
+The version lives in a single line of `app.py`:
 
 ```python
 VERSION = "0.1.0"
 ```
 
-Se usa semver: `MAJOR.MINOR.PATCH` (rompe compatibilidad / funciones nuevas / arreglos). El tag de Git lleva una `v` delante y **tiene que coincidir**: `v0.1.0`.
+The project follows semver: `MAJOR.MINOR.PATCH` (breaking change / new features /
+fixes). The Git tag is prefixed with `v` and **must match**: `v0.1.0`.
 
-Para publicar una versión:
+To publish a release:
 
 ```bash
-# 1. sube la versión en app.py y anota los cambios en CHANGELOG.md
+# 1. bump VERSION in app.py and note the changes in CHANGELOG.md
 git add -A
 git commit -m "notesmd 0.1.0"
 git tag -a v0.1.0 -m "notesmd 0.1.0"
 git push origin main --tags
 ```
 
-Al empujar el tag, `.github/workflows/release.yml` compila los paquetes y crea la
-Release con los adjuntos. En la barra lateral del repositorio aparece
-**Releases → Latest v0.1.0** con el instalador para descargar.
+Pushing the tag makes `.github/workflows/release.yml` build the packages and
+create the Release with them attached. The repository sidebar then shows
+**Releases → Latest v0.1.0** with the installer to download.
 
-También puedes generar los paquetes en local:
+You can also build the packages locally:
 
 ```bash
-./scripts/package.sh          # dist/notesmd-0.1.0.tar.gz y dist/notesmd_0.1.0_all.deb
+./scripts/package.sh          # dist/notesmd-0.1.0.tar.gz and dist/notesmd_0.1.0_all.deb
 ```
 
-- **`.deb`** (recomendado): `sudo apt install ./notesmd_0.1.0_all.deb`. Instala en
-  `/usr/lib/notesmd`, añade `notesmd` al menú y declara las dependencias de GTK/WebKit.
-- **`.tar.gz`**: descomprimir y ejecutar `./install.sh` (instalación en tu carpeta personal,
-  sin sudo).
+- **`.deb`** (recommended): `sudo apt install ./notesmd_0.1.0_all.deb`. It installs
+  into `/usr/lib/notesmd`, adds `notesmd` to the menu and declares the GTK/WebKit
+  dependencies.
+- **`.tar.gz`**: unpack and run `./install.sh` (per-user install, no sudo).
 
-La primera Release hay que crearla publicando el tag; a partir de ahí GitHub muestra
-siempre la última en esa parte del repositorio.
+The first Release has to be created by publishing the tag; from then on GitHub
+always shows the latest one in that part of the repository.
 
-## Uso
+## Usage
 
-- `N` o el botón **Nueva nota** para escribir.
-- `/` enfoca la búsqueda; `Esc` la limpia o cierra el editor.
-- `Ctrl+S` guarda al instante (si no, se guarda solo a los ~650 ms).
-- Pasa el ratón por una tarjeta para fijarla con el alfiler.
-- Las etiquetas se escriben dentro de una nota con `#etiqueta` y aparecen en la barra lateral.
+- `N` or the **New note** button to start writing.
+- `/` focuses the search box; `Esc` clears it or closes the editor.
+- `Ctrl+S` saves immediately (otherwise it autosaves after ~650 ms).
+- Hover a card to pin it with the pin button.
+- Labels are written inside a note as `#label` and show up in the sidebar.
 
-## Tus notas
+## Your notes
 
-Por defecto viven en `~/Notas-notesmd` (puedes cambiarlo con `--data-dir` o la variable `NOTESMD_DIR`). La primera vez se crea una nota de bienvenida.
+By default they live in `~/Notas-notesmd` (you can change it with `--data-dir` or
+the `NOTESMD_DIR` environment variable). The first run creates a welcome note.
 
 ```
 ~/Notas-notesmd/
@@ -102,7 +106,7 @@ Por defecto viven en `~/Notas-notesmd` (puedes cambiarlo con `--data-dir` o la v
 └── ...
 ```
 
-Cada archivo lleva un frontmatter con los metadatos de la tarjeta y el resto es Markdown puro:
+Each file has front matter with the card metadata and the rest is plain Markdown:
 
 ```markdown
 ---
@@ -119,54 +123,55 @@ tags:
   - ideas
 ---
 
-El cuerpo de la nota, en Markdown.
+The note body, in Markdown.
 ```
 
-## Estructura
+## Project layout
 
 ```
 notesmd/
-├── app.py                 # ventana + API expuesta a JavaScript
-├── backend/store.py       # almacén Markdown
+├── app.py                 # window + API exposed to JavaScript
+├── backend/store.py       # Markdown store
 ├── web/
 │   ├── index.html
 │   ├── css/app.css
 │   ├── js/app.js
 │   ├── js/vendor/         # marked + DOMPurify
 │   └── fonts/             # Fraunces + Public Sans
-├── assets/                # iconos
-├── docs/                  # capturas para este README
-├── scripts/package.sh     # .tar.gz y .deb para las releases
-├── .github/workflows/     # release automática al empujar un tag
+├── assets/                # icons
+├── docs/                  # screenshots used by this README
+├── scripts/package.sh     # .tar.gz and .deb for releases
+├── .github/workflows/     # automatic release on tag push
 ├── tests/
 ├── run.sh
 ├── install.sh
 └── uninstall.sh
 ```
 
-## Desarrollo
+## Development
 
-La interfaz funciona sola en el navegador con datos de demostración:
+The interface runs on its own in a browser with demo data:
 
 ```bash
 python3 -m http.server 8765 --directory web
-# abrir http://127.0.0.1:8765/
+# open http://127.0.0.1:8765/
 ```
 
-Para una prueba de humo de la ventana real y del puente con Python:
+For a smoke test of the real window and the Python bridge:
 
 ```bash
 .venv/bin/python tests/ui_smoke.py
 ```
 
-## Si la ventana parpadea
+## If the window flickers
 
-El mosaico se reparte en columnas flex desde JavaScript, no con `columns` de CSS:
-WebKitGTK repinta en bucle el layout multicolumna y las tarjetas parpadean.
-Además `run.sh` desactiva el renderizador DMABUF de WebKit, que provoca
-parpadeos en algunas GPU (NVIDIA/AMD).
+The board is laid out in flex columns from JavaScript, not with CSS `columns`:
+WebKitGTK repaints the multicolumn layout in a loop and the cards flicker. On top
+of that, `run.sh` disables WebKit's DMABUF renderer, which causes flicker on some
+GPUs (NVIDIA/AMD).
 
-Si en tu equipo aún se nota, arranca con el compositor de WebKit desactivado:
+If you still notice it on your machine, start the app with WebKit's compositor
+disabled:
 
 ```bash
 WEBKIT_DISABLE_COMPOSITING_MODE=1 ./run.sh
